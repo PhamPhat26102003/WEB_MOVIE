@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sd="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{master.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin home movie</title>
+</head>
+<body>
+    <div layout:fragment="content">
+            <h2>Movies</h2>
+
+            <div class="text-end">
+                <a href="/admin/films/new" class="btn btn-primary">
+                    Add movie
+                </a>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Movie</th>
+                    <th>F.Premiere</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="movie : ${movies}" th:object="${movie}">
+                    <td style="width:150px;">
+                        <a th:href="@{/assets/{filename}(filename=*{routeFrontPage})}" data-fancybox-type="iframe">
+                            <img th:src="@{/assets/{filename}(filename=*{routeFrontPage})}" alt="" class="img-thumbnail w-100">
+                        </a>
+                    </td>
+                    <td>
+                        <div th:text="*{qualification}" class="fs-5 fw-bold"></div>
+                        <p th:text="*{synopsis}"></p>
+                        <div>
+                            <span class="badge rounded-pill bg-light text-dark me-1"
+                                  th:each="category : *{categories}"
+                                  th:text="${category.qualification}"></span>
+                        </div>
+                    </td>
+                    <td th:text="*{#temporals.format(releaseDate, 'dd/MM/yyyy')}"></td>
+                    <td class="text-end">
+                        <a th:href="@{/admin/films/{id}/edit(id=*{id})}" class="text-primary">Edit</a>
+                        <br>
+                        <a href="javascript:void(0)" class="text-danger ms-3" th:onclick="'deleteMovie(' + *{id} +')'">Delete</a>
+                        <form th:id="'deleteMovieForm' + *{id}" th:action="@{/admin/films/{id}/delete(id=*{id})}" method="post" class="d-none">
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        <div class="row mt-5" th:with="page=${movie}">
+            <div class="col-sm-6">
+                <div sd:pagination-sumary>
+                </div>
+                <div class="col-sm-6">
+                    <nav>
+                        <ul class="pagination" sd:pagination="full"></ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div layout:fragment="scripts">
+        <script>
+            function deleteMovie(id){
+        	    if(!confirm('Are you sure to delete this movie?')){
+        		    return;
+        	    }
+        	 $('#deleteMovieForm' + id).submit();
+         }
+        </script>
+    </div>
+</body>
+</html>

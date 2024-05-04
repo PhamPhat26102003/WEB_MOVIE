@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<div layout:fragment="form">
+  <form action="" method="post" th:object="${movie}" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="qualification" class="form-label">Qualification:</label>
+      <input type="text" id="qualification" placeholder="Enter qualification"
+             class="form-control" th:field="*{qualification}">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('qualification')}"
+           th:errors="*{qualification}">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="synopsis" class="form-label">Synopsis:</label>
+      <textarea id="synopsis" placeholder="Enter synopsis"
+                class="form-control" th:field="*{synopsis}"></textarea>
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('synopsis')}"
+           th:errors="*{synopsis}">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="releaseDate" class="form-label">Release date:</label>
+      <input type="date" id="releaseDate" placeholder="Enter releaseDate"
+             class="form-control" th:field="*{releaseDate}">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('releaseDate')}"
+           th:errors="*{releaseDate}">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="youtubeTrailerId" class="form-label">Youtube trailer ID:</label>
+      <input type="text" id="youtubeTrailerId" placeholder="Enter youtubeTrailerId"
+             class="form-control" th:field="*{youtubeTrailerId}">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('youtubeTrailerId')}"
+           th:errors="*{youtubeTrailerId}">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="frontPage" class="form-label">Front page:</label>
+      <input type="file" name = "frontPage" id="frontPage" placeholder="Enter frontPage"
+             class="form-control" th:field="*{frontPage}">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('frontPage')}"
+           th:errors="*{frontPage}">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="categories" class="form-label">Category:</label>
+      <select id="categories" class="form-control" th:field="*{categories}" multiple>
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.qualification}">
+
+        </option>
+      </select>
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('categories')}"
+           th:errors="*{categories}">
+      </div>
+    </div>
+
+    <div class="text-end">
+      <button type="submit" class="btn btn-primary"> Save </button>
+    </div>
+  </form>
+</div>
+</body>
+</html>
